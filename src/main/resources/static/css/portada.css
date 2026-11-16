@@ -1,4 +1,4 @@
-﻿/* Exclusivo de la portada: reutiliza la tipografía y paleta de app.css. */
+/* Exclusivo de la portada: reutiliza la tipografía y paleta de app.css. */
 .portada { background: var(--hormigon-alto); color: var(--agua-hondo); }
 .portada svg { width: 32px; height: 32px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 .portada .iconos { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -15,7 +15,7 @@
 .portada .portada-boton { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 10px 32px; border: 2px solid transparent; border-radius: 32px; text-decoration: none; font-size: 1.2rem; font-weight: 700; line-height: 1.3; }
 .portada .acceso { background: var(--agua-hondo); color: white; white-space: nowrap; }
 .portada main.portada-contenido { max-width: 1600px; padding: 0 20px; }
-.portada-hero { min-height: 510px; display: flex; align-items: center; border-radius: 44px; background-color: var(--agua-hondo); background-image: linear-gradient(90deg, rgba(10,30,49,.96), rgba(10,30,49,.83) 34%, rgba(10,30,49,.14) 76%), url('/css/imagenes/buque-canal.jpg'); background-size: cover; background-position: center 55%; padding: 56px 6% 90px; color: white; }
+.portada-hero { min-height: 510px; display: flex; align-items: center; border-radius: 44px; background-color: var(--agua-hondo); background-image: linear-gradient(90deg, rgba(10,30,49,.96), rgba(10,30,49,.83) 34%, rgba(10,30,49,.14) 76%), url('/css/imagenes/fondo-navesitas.png'); background-size: cover; background-position: center 55%; padding: 56px 6% 90px; color: white; }
 .hero-texto { max-width: 720px; }
 .distintivo { display: inline-flex; gap: 12px; align-items: center; border: 1px solid #ffffff50; border-radius: 32px; padding: 7px 20px; margin: 0 0 24px; background: var(--agua); font-size: 1.1rem; }
 .portada h1 { font-size: clamp(2.4rem, 4.4vw, 4.2rem); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 22px; }
@@ -59,7 +59,7 @@
 .portada-nav { gap: 30px; }
 .portada-nav a { font-size: 1rem; padding: 4px 0; }
 .portada main.portada-contenido { padding: 0 12px; }
-.portada-hero { min-height: 580px; padding: 36px 24px 80px; border-radius: 28px; background-position: 62% center; background-image: linear-gradient(90deg, rgba(10,30,49,.94), rgba(10,30,49,.65)), url('/css/imagenes/buque-canal.jpg'); }
+.portada-hero { min-height: 580px; padding: 36px 24px 80px; border-radius: 28px; background-position: 62% center; background-image: linear-gradient(90deg, rgba(10,30,49,.94), rgba(10,30,49,.65)), url('/css/imagenes/fondo-navesitas.png'); }
 .distintivo { font-size: .9rem; gap: 8px; padding: 7px 12px; }
 .distintivo svg { width: 24px; height: 24px; }
 .portada h1 { font-size: clamp(2rem, 8.5vw, 3rem); }
