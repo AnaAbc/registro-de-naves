@@ -3,30 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Expediente de la nave — Navesitas</title>
+<meta name="description" content="Navecitas: gestión de registros marítimos, expedientes, documentos y trámites.">
+<title>Expediente de la nave — Navecitas</title>
 <link rel="preload" href="/css/fuentes/atkinson-hyperlegible-next.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/app.css">
+
+<link rel="stylesheet" href="/css/sereno.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/css/navegacion.css">
 </head>
 <body>
 
-<header class="barra">
-  <h1>Navesitas</h1>
-  <span>Registro de naves comerciales &middot; DGMM</span>
-  <span class="derecha" id="sesion"></span>
+<header class="barra barra-nueva">
+  <a class="app-marca" href="/" aria-label="Navecitas, ir al inicio">
+    <span class="app-marca-simbolo" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 28 24 21l19 7-6 11H11L5 28ZM14 23V13h20v10M21 13V7h6v6M4 43c6-6 10 6 17 0s11 6 17 0 9 2 9 2"/></svg></span>
+    <span class="app-marca-texto"><strong>Navecitas</strong><small>GESTIÓN MARÍTIMA</small></span>
+  </a>
+  <button class="app-menu-boton" id="app-menu-boton" type="button" aria-controls="app-navegacion" aria-expanded="false" aria-label="Abrir menú de navegación">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menú</span>
+  </button>
+  <nav id="app-navegacion" class="app-navegacion" aria-label="Navegación principal"></nav>
+  <span class="derecha app-sesion" id="sesion" aria-label="Cuenta conectada"></span>
 </header>
 
 <main>
   <p class="migas">
-    <a href="/naves.html"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Mis naves</a>
+    <a id="volver-expediente" href="/mis-naves.html"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="volver-expediente-etiqueta">Mis naves</span></a>
   </p>
 
-  <h2 id="titulo-nave">Expediente</h2>
-  <p class="sumario">
-    Aquí se vinculan los propietarios de la nave, se designa al agente
-    residente que gestiona su trámite ante la DGMM, se cargan los
-    documentos del expediente de abanderamiento y se sigue el estado del
-    trámite.
-  </p>
+<section class="encabezado-pagina" aria-label="Cabecera de la sección">
+  <div class="encabezado-pagina__tarjeta">
+    <div class="encabezado-pagina__fila">
+      <span class="encabezado-pagina__icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z"/><path d="M8 11h8"/><path d="M8 15h5"/></svg></span>
+    <div class="encabezado-pagina__contenido">
+      <span class="encabezado-pagina__etiqueta">NAVECITAS / PLATAFORMA</span>
+      <h2 id="titulo-nave">Expediente</h2>
+    </div>
+    </div>
+    <p class="sumario">Aquí se vinculan los propietarios de la nave, se designa al agente residente que gestiona su trámite ante la DGMM, se cargan los documentos del expediente de abanderamiento y se sigue el estado del trámite</p>
+  </div>
+</section>
 
   <p class="veredicto" id="aviso-nave" role="status" aria-live="polite"></p>
 
@@ -122,7 +139,7 @@
 
     <p class="aviso-precondicion oculto" id="precondicion-agente">
       La nave necesita al menos un propietario vinculado antes de poder
-      designar agente residente.
+      designar agente residente
     </p>
 
     <div id="agente-vigente"></div>
@@ -269,7 +286,7 @@
     <form id="form-documento" class="subformulario" novalidate>
       <p class="cerrojo" id="cerrojo-documentos">
         Se habilita cuando la nave tenga al menos un propietario y un agente
-        residente designado.
+        residente designado
       </p>
       <fieldset id="campos-documento">
         <legend>Cargar un documento</legend>
@@ -315,7 +332,7 @@
 
     <div id="constancia-registro" class="oculto">
       <p class="nota">Constancia digital del trámite de registro. No constituye patente de navegación
-        ni certificación oficial. Sin firma digital.</p>
+        ni certificación oficial. Sin firma digital</p>
       <div class="acciones">
         <button type="button" id="btn-constancia">Descargar constancia de registro (PDF)</button>
       </div>
@@ -334,7 +351,7 @@
         </div>
 
         <p class="nota oculto" id="nota-final">
-          Aprobar, rechazar y desistir cierran el trámite: después ya no admite cambios.
+          Aprobar, rechazar y desistir cierran el trámite: después ya no admite cambios
         </p>
 
         <div class="acciones" id="botones-tramite"></div>
@@ -352,7 +369,7 @@
   </section>
   <section class="tarjeta oculto" id="seccion-patente">
     <h3>Patente provisional simulada</h3>
-    <p>Etapa posterior al registro aprobado, con requisitos y revisiones propios. Sin validez oficial.</p>
+    <p>Etapa posterior al registro aprobado, con requisitos y revisiones propios. Sin validez oficial</p>
     <a class="boton" id="abrir-patente" href="/patentes.html">Abrir patente provisional</a>
   </section>
 </main>
@@ -362,5 +379,8 @@
 <script src="/js/constancia.js"></script>
 <script src="/js/tramite.js"></script>
 <script src="/js/expediente.js"></script>
+
+<footer class="app-pie"><span>© 2026 Navecitas · Plataforma académica de registro marítimo. Sin validez oficial.</span></footer>
+<script src="/js/navegacion.js" defer></script>
 </body>
 </html>

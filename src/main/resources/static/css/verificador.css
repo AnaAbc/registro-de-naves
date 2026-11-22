@@ -1,0 +1,179 @@
+/* Pantalla DGMM: verificación cómoda en una sola vista.
+   Reglas locales: no afectan expedientes, formularios ni otras páginas. */
+html:has(body.pagina-verificacion) { height: 100%; overflow: hidden; }
+body.pagina-verificacion {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: #f8faf9;
+}
+.pagina-verificacion .barra.barra-nueva {
+  position: relative;
+  flex-shrink: 0;
+}
+.pagina-verificacion main.estrecho {
+  width: min(100%, 660px);
+  max-width: 660px;
+  min-height: 0;
+  max-height: 100%;
+  align-self: center;
+  margin: 0 auto;
+  padding: clamp(14px, 3dvh, 28px) clamp(16px, 3.5vw, 30px);
+  overflow-y: auto; /* Solo si la altura física impide mostrar todos los datos. */
+  overscroll-behavior: contain;
+}
+.pagina-verificacion main > h2 {
+  font-size: clamp(1.55rem, 3vw, 2.05rem);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.pagina-verificacion main > h2::before { margin-bottom: 7px; }
+.pagina-verificacion .sumario {
+  font-size: clamp(.87rem, 1.35vw, .96rem);
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+.pagina-verificacion #form-verificar-patente {
+  padding: clamp(18px, 3vw, 28px);
+  margin: 0 0 12px;
+}
+.pagina-verificacion .verificador-campos {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+.pagina-verificacion .verificador-campos input {
+  width: 100%;
+  min-height: 48px;
+  font-size: 1rem;
+}
+.pagina-verificacion .verificador-campos button {
+  align-self: flex-start;
+  min-height: 48px;
+  padding: 0 26px;
+}
+.pagina-verificacion #form-verificar-patente .pista {
+  font-size: .83rem;
+  line-height: 1.4;
+  margin: 14px 0 0;
+}
+.pagina-verificacion #verificacion-estado {
+  display: block;
+  padding: 10px 14px;
+  margin: 0;
+  background: #eaf5f3;
+  border: 1px solid #d0e6e1;
+  color: #215e66;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: .86rem;
+  line-height: 1.4;
+}
+.pagina-verificacion #verificacion-datos {
+  margin: 12px 0 0;
+  padding: 16px 20px;
+}
+.pagina-verificacion #verificacion-datos dl {
+  display: grid;
+  grid-template-columns: minmax(110px, .85fr) minmax(0, 1.15fr);
+  gap: 9px 14px;
+  margin: 0;
+  font-size: .89rem;
+}
+.pagina-verificacion #verificacion-datos dt { font-weight: 700; color: #39595f; }
+.pagina-verificacion #verificacion-datos dd { margin: 0; overflow-wrap: anywhere; }
+.pagina-verificacion .app-pie {
+  width: 100%;
+  max-width: none;
+  padding: 10px 16px 12px;
+  margin: 0;
+  font-size: .74rem;
+  background: #f8faf9;
+}
+@media (max-width: 1300px) {
+  /* El menú se superpone: no aumenta la altura ni crea scroll. */
+  .pagina-verificacion .barra.barra-nueva { position: relative; }
+  .pagina-verificacion .barra-nueva .app-navegacion {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 14px;
+    right: 14px;
+    z-index: 10;
+    max-height: calc(100dvh - 90px);
+    overflow-y: auto;
+    margin: 0;
+    flex-basis: auto;
+  }
+}
+@media (max-width: 767px) {
+  .pagina-verificacion main.estrecho { padding: 12px 16px; }
+  .pagina-verificacion main > h2 { font-size: clamp(1.45rem, 6vw, 1.8rem); }
+  .pagina-verificacion .sumario { font-size: .87rem; line-height: 1.43; margin-bottom: 12px; }
+  .pagina-verificacion #form-verificar-patente { padding: 18px; margin-bottom: 10px; }
+  .pagina-verificacion .verificador-campos { gap: 14px; }
+  .pagina-verificacion .verificador-campos button { width: 100%; }
+  .pagina-verificacion #form-verificar-patente .pista { margin-top: 10px; }
+  .pagina-verificacion .app-pie { padding: 8px 12px 10px; }
+}
+@media (max-width: 390px), (max-height: 700px) {
+  .pagina-verificacion main > h2::before { margin-bottom: 4px; }
+  .pagina-verificacion .sumario { margin-bottom: 10px; }
+  .pagina-verificacion #form-verificar-patente { padding: 16px; }
+  .pagina-verificacion #form-verificar-patente .pista { margin-top: 8px; }
+  .pagina-verificacion .verificador-campos { gap: 12px; }
+}
+@media (max-height: 530px) {
+  /* Mantener operativos el campo y la respuesta en horizontales bajos. */
+  .pagina-verificacion .app-pie { display: none; }
+  .pagina-verificacion main.estrecho { align-self: stretch; }
+}
+
+/* Tras una consulta exitosa se priorizan los datos y se compacta la ayuda
+   inicial; el formulario permanece disponible para una nueva búsqueda. */
+.pagina-verificacion main:has(#verificacion-datos:not(.oculto)) .encabezado-pagina .sumario {
+  display: none;
+}
+.pagina-verificacion main:has(#verificacion-datos:not(.oculto)) #form-verificar-patente .pista {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  /* El pie legal ocupa hasta tres líneas en móvil; no aporta navegación.
+     Su texto sigue disponible en el resto de la plataforma. */
+  .pagina-verificacion .app-pie { display: none; }
+}
+@media (max-width: 359px) {
+  .pagina-verificacion main > h2::before { display: none; }
+  .pagina-verificacion main > h2 { font-size: 1.4rem; margin-bottom: 8px; }
+  .pagina-verificacion main.estrecho { padding: 8px 12px; }
+  .pagina-verificacion #form-verificar-patente { padding: 13px; }
+  .pagina-verificacion .sumario { line-height: 1.33; }
+}
+@media (max-width: 390px) {
+  .pagina-verificacion #verificacion-datos { padding: 12px 16px; }
+  .pagina-verificacion #verificacion-datos dl { gap: 6px 10px; }
+}
+
+/* Descripción integrada en el encabezado; compacto en una altura limitada. */
+.pagina-verificacion .encabezado-pagina { margin-bottom: 12px; }
+.pagina-verificacion .encabezado-pagina__tarjeta { width: 100%; padding: 16px 19px; }
+.pagina-verificacion .encabezado-pagina__icono { width: 46px; height: 46px; }
+.pagina-verificacion .encabezado-pagina__icono svg { width: 23px; height: 23px; }
+.pagina-verificacion .encabezado-pagina h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+.pagina-verificacion .encabezado-pagina .sumario { margin: 11px 0 0; padding: 10px 0 0; line-height: 1.45; }
+@media (max-width: 620px) {
+  .pagina-verificacion .encabezado-pagina__tarjeta { padding: 14px 16px; }
+  .pagina-verificacion .encabezado-pagina__fila { gap: 10px; }
+  .pagina-verificacion .encabezado-pagina h2 { font-size: clamp(1.25rem, 5.2vw, 1.7rem); }
+  .pagina-verificacion .encabezado-pagina .sumario { margin-top: 8px; padding-top: 8px; font-size: .84rem; line-height: 1.42; }
+}

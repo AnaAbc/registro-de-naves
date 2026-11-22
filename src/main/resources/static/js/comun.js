@@ -1,4 +1,4 @@
-/* Navesitas — utilidades compartidas por las pantallas.
+/* Navecitas — utilidades compartidas por las pantallas.
    Todo endpoint exige sesion desde el Sprint 3, asi que aqui vive el
    manejo de 401 y el formato de errores del backend. */
 
@@ -145,8 +145,17 @@ async function pintarSesion() {
           notificar('Sesión iniciada correctamente. Bienvenido/a, ' + datos.nombreCompleto + '.');
         }
       } catch (e) { /* El acceso sigue funcionando si el navegador bloquea el almacenamiento. */ }
-      caja.innerHTML = escapar(datos.nombreCompleto)
-        + ' &middot; <a href="#" id="btn-salir">Salir</a>';
+      const rolesVisibles = {
+        AGENTE_NAVIERO: 'Agente naviero',
+        FUNCIONARIO_DGMM: 'Funcionario DGMM',
+        AUDITOR: 'Auditor',
+        ADMINISTRADOR: 'Administrador'
+      };
+      const rolVisible = rolesVisibles[datos.rol] || 'Cuenta conectada';
+      caja.innerHTML = '<span class="app-sesion__identidad">'
+        + '<span class="app-sesion__nombre">' + escapar(datos.nombreCompleto || '') + '</span>'
+        + '<span class="app-sesion__rol">' + rolVisible + '</span></span>'
+        + '<a href="#" id="btn-salir">Cerrar sesión</a>';
       $('btn-salir').addEventListener('click', async (e) => {
         e.preventDefault();
         const f = document.createElement('form');

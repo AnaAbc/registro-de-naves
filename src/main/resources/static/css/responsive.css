@@ -1,0 +1,277 @@
+/*
+ * Navecitas · mobile-first refinements for the 2026 visual refresh.
+ * Layers on top of app.css, sereno.css and portada.css.
+ * IMPORTANT: no business workflow, role, form name or API behavior is changed.
+ */
+
+/* Predictable sizing for dynamic form sections and wrapped actions. */
+:where(body) :where(.tarjeta, .ficha-nave, .encabezado-seccion, .rejilla, .fila, .acciones, .tabla-desplazable) {
+  min-width: 0;
+}
+:where(body) :where(img, video, canvas, iframe) { max-width: 100%; }
+:where(body) :where(input, select, textarea) { min-width: 0; }
+:where(body) .tabla-desplazable {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+:where(body) :where(.nota, .sumario, .tarjeta p, .tarjeta li, td, dd, .migas a) {
+  overflow-wrap: anywhere;
+}
+
+/* A native, accessible navigation trigger for narrow layouts. */
+.portada .mobile-menu-button { display: none; }
+.portada .mobile-menu-button svg { width: 22px; height: 22px; }
+.portada .mobile-menu-button .mobile-menu-close { display: none; }
+.portada .mobile-menu-button[aria-expanded="true"] .mobile-menu-open { display: none; }
+.portada .mobile-menu-button[aria-expanded="true"] .mobile-menu-close { display: block; }
+.portada .mobile-menu-button:focus-visible { outline: 3px solid #14737e; outline-offset: 3px; }
+
+/* Tablets: keep overview readable without crowding three cards into one line. */
+@media (min-width: 768px) and (max-width: 1100px) {
+  .portada .workflow-grid, .portada .voices-grid, .portada .plans {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .portada .workflow-grid > :last-child,
+  .portada .voices-grid > :last-child,
+  .portada .plans > :last-child {
+    grid-column: 1 / -1;
+  }
+  .portada .workflow-grid > :last-child { min-height: 190px; }
+  .portada .voices-grid > :last-child { min-height: 195px; }
+  .portada .plans > :last-child { min-height: 340px; }
+  .portada .landing-header { gap: 18px; }
+  .portada .landing-nav { gap: 18px; margin-right: 0; }
+  body.pagina-acceso { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); }
+  .pagina-acceso .acceso-visual { padding: 30px; }
+  .pagina-acceso main.estrecho { width: 100%; padding-inline: 30px; }
+}
+
+@media (max-width: 767px) {
+  html { scroll-padding-top: 16px; }
+  /* Landing header: brand + a compact menu + sign-in action on one row. */
+  .portada .landing-header {
+    position: relative;
+    isolation: isolate;
+    min-height: 75px;
+    height: auto;
+    padding: 12px clamp(12px, 4vw, 20px);
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 9px;
+    z-index: 100;
+  }
+  .portada .brand { min-width: 0; gap: 8px; }
+  .portada .brand-mark { flex: 0 0 40px; }
+  .portada .brand strong { font-size: 1.1rem; }
+  .portada .brand small { font-size: .49rem; letter-spacing: .11em; }
+  .portada .header-login {
+    order: 3;
+    min-height: 44px;
+    font-size: .78rem;
+    padding: 9px 12px;
+    gap: 7px;
+    margin-left: 0;
+    flex: 0 0 auto;
+  }
+  .portada .header-login svg { width: 15px; height: 15px; }
+  .portada.nav-ready .mobile-menu-button {
+    order: 2;
+    display: inline-flex;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbdedc;
+    background: #f7fbfa;
+    color: #1b5f6a;
+    border-radius: 9px;
+    margin-left: auto;
+    box-shadow: none;
+  }
+  .portada.nav-ready .mobile-menu-button:hover {
+    background: #eaf5f2;
+    transform: none;
+    box-shadow: none;
+  }
+  .portada .landing-nav {
+    position: absolute;
+    z-index: 101;
+    order: 4;
+    top: calc(100% - 5px);
+    left: 12px;
+    right: 12px;
+    width: auto;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    border: 1px solid #d9e8e5;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(12, 58, 64, .08);
+  }
+  .portada.nav-ready .landing-nav:not([data-open="true"]) { display: none; }
+  .portada .landing-nav a {
+    display: flex;
+    min-height: 46px;
+    align-items: center;
+    padding: 10px 14px;
+    font-size: .93rem;
+    border-radius: 8px;
+  }
+  .portada .landing-nav a:hover,
+  .portada .landing-nav a:focus-visible { background: #edf7f5; }
+  .portada .landing-main { padding: 0 clamp(10px, 3vw, 18px) 45px; }
+  .portada .hero {
+    min-height: max(610px, 77svh);
+    border-radius: 16px;
+  }
+  .portada .hero-photo { background-position: 29% center; }
+  .portada .hero::before { background: rgba(3, 30, 44, .49); }
+  .portada .hero-copy { padding: 95px clamp(18px, 6vw, 30px) 86px; }
+  .portada .hero h1 {
+    font-size: clamp(2.28rem, 10vw, 3.5rem);
+    line-height: 1.09;
+    overflow-wrap: normal;
+  }
+  .portada .hero-sub { font-size: .96rem; line-height: 1.65; }
+  .portada .hero-actions .btn { min-height: 48px; }
+  .portada .hero-caption { max-width: calc(100% - 40px); letter-spacing: .09em; }
+  .portada .hero-underbar { gap: 12px; padding: 22px 12px; }
+  .portada .intro { padding-top: 65px; }
+  .portada .features { gap: 14px; }
+  .portada .feature { min-height: 0; }
+  .portada .feature-large { min-height: 425px; }
+  .portada .feature-small { grid-template-columns: 48px minmax(0,1fr); }
+  .portada .workflow-section { padding: 55px 18px; }
+  .portada .voices-section { padding-block: 64px; }
+  .portada .plan { min-height: 0; padding: 26px; }
+  .portada .plan h3 { margin-top: 24px; }
+  .portada .plan ul { margin: 20px 0 27px; }
+  .portada .closing-buttons { align-items: stretch; }
+  .portada .closing-buttons .btn { min-height: 48px; }
+  .portada .footer-top { gap: 36px 20px; }
+  .portada .footer-col a { display: inline-flex; align-items: center; min-height: 28px; }
+
+  /* Operational pages: comfortable single-column form and card spacing. */
+  body:not(.portada) main { width: 100%; padding: 27px 16px 60px; }
+  body:not(.portada) main > h2 { font-size: clamp(1.64rem, 6vw, 2rem); line-height: 1.18; }
+  body:not(.portada) .barra { padding: 14px 16px; min-height: 68px; }
+  body:not(.portada) .barra::before { width: 30px; height: 30px; }
+  body:not(.portada) .barra h1 { font-size: 1.12rem; }
+  body:not(.portada) .barra > span:not(.derecha) { flex-basis: 100%; }
+  body:not(.portada) .barra .derecha,
+  body:not(.portada) .barra #sesion { min-width: 0; max-width: 100%; }
+  body:not(.portada) .tarjeta { padding: 22px 18px; margin-bottom: 16px; border-radius: 14px; }
+  body:not(.portada) .rejilla,
+  body:not(.portada) .rejilla.tres { grid-template-columns: minmax(0, 1fr); }
+  body:not(.portada) .encabezado-seccion { align-items: flex-start; }
+  body:not(.portada) .encabezado-seccion .contador { margin-left: 0; }
+  body:not(.portada) .migas { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0; }
+  body:not(.portada) .migas a {
+    font-size: .82rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 12px;
+    max-width: 100%;
+    line-height: 1.35;
+  }
+  body:not(.portada) .sumario { font-size: .94rem; line-height: 1.65; }
+  body:not(.portada) .camara-titulo { line-height: 1.3; }
+  body:not(.portada) .acciones { gap: 10px; }
+  body:not(.portada) .acciones > button,
+  body:not(.portada) .acciones > .boton { flex: 1 1 auto; min-width: min(100%, 180px); }
+  body:not(.portada) .compuerta .fila > div { flex-basis: 100%; }
+  body:not(.portada) .compuerta .fila > button { min-height: 48px; }
+  body:not(.portada) .tabla-desplazable { margin-inline: 0; }
+  body:not(.portada) .tabla-desplazable th,
+  body:not(.portada) .tabla-desplazable td { padding: 12px; }
+  body:not(.portada) #contenido-patente > table,
+  body:not(.portada) #contenido-patente .tarjeta > table { display: block; max-width: 100%; overflow-x: auto; }
+  body:not(.portada) .app-pie { padding: 22px 16px max(24px, env(safe-area-inset-bottom)); }
+
+  /* Access screens: keep the atmospheric photo but get fields into view sooner. */
+  body.pagina-acceso { display: flex; flex-direction: column; }
+  body.pagina-acceso .acceso-visual {
+    width: 100%;
+    min-height: 215px;
+    max-height: 265px;
+    padding: 16px;
+    background-position: 31% 52%;
+    align-items: flex-end;
+  }
+  body.pagina-acceso .acceso-visual > div {
+    width: 100%;
+    padding: 17px 19px;
+    border-radius: 13px;
+    background: rgba(13, 55, 67, .62);
+  }
+  body.pagina-acceso .acceso-visual h2 { margin: 8px 0; font-size: 1.65rem; }
+  body.pagina-acceso .acceso-visual p { font-size: .82rem; line-height: 1.5; }
+  body.pagina-acceso main.estrecho {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 28px 16px 42px;
+  }
+  body.pagina-acceso main > h2 { font-size: 1.85rem; }
+  body.pagina-acceso .tarjeta { padding: 22px 19px; }
+  body.pagina-acceso .tarjeta .acciones button { min-width: 0; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  body:not(.portada) :where(input, select, textarea) { font-size: 16px; min-height: 48px; }
+  body:not(.portada) :where(button, .boton) { min-height: 48px; }
+  body:not(.portada) .acciones > button,
+  body:not(.portada) .acciones > .boton { flex: 1 1 100%; }
+  body:not(.portada) .acciones-fila button { flex: 1 1 auto; }
+  body:not(.portada) .tarjeta { padding: 20px 16px; }
+  body:not(.portada) .placa { flex-shrink: 0; }
+  body:not(.portada) .ficha-nave { grid-template-columns: 1fr; }
+  body:not(.portada) .app-pie { flex-direction: column; gap: 8px; }
+  .portada .hero-actions { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .portada .hero-actions .btn { white-space: normal; }
+  .portada .closing-buttons { flex-direction: column; }
+  .portada .closing-buttons .btn { width: 100%; }
+  .portada .footer-top { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .portada .footer-col { min-width: 0; }
+}
+
+@media (max-width: 359px) {
+  .portada .landing-header { padding-inline: 10px; gap: 6px; }
+  .portada .brand-mark { width: 34px; height: 34px; flex-basis: 34px; }
+  .portada .brand-mark svg { width: 22px; height: 22px; }
+  .portada .brand strong { font-size: 1rem; }
+  .portada .brand small { font-size: .42rem; letter-spacing: .04em; }
+  .portada .header-login { padding-inline: 9px; gap: 3px; }
+  .portada .header-login svg { display: none; }
+  .portada .hero { min-height: 620px; }
+  .portada .hero-copy { padding-inline: 18px; }
+  .portada .hero h1 { font-size: 2.23rem; }
+  .portada .feature-small { grid-template-columns: 1fr; gap: 14px; padding: 24px; }
+  .portada .footer-top { gap: 30px 12px; }
+  body.pagina-acceso .acceso-visual { min-height: 190px; }
+  body.pagina-acceso .acceso-visual h2 { font-size: 1.35rem; }
+  body:not(.portada) main { padding-inline: 12px; }
+  body:not(.portada) .barra { padding-inline: 12px; }
+  body:not(.portada) .tarjeta { padding: 18px 13px; }
+  body:not(.portada) .camara-titulo { font-size: 1.08rem; }
+  body:not(.portada) .tabla-desplazable th,
+  body:not(.portada) .tabla-desplazable td { padding-inline: 8px; }
+}
+
+@media (max-width: 767px) and (orientation: landscape) and (max-height: 530px) {
+  .portada .hero { min-height: 510px; }
+  body.pagina-acceso .acceso-visual { min-height: 150px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portada .landing-nav, .portada .mobile-menu-button { transition: none !important; }
+}

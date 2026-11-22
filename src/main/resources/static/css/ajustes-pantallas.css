@@ -1,0 +1,117 @@
+/* Navecitas · Ajustes de altura visible (portada, acceso y registro).
+   El desplazamiento global se evita sin esconder campos de formulario. */
+body.portada {
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100vh; height: 100dvh; min-height: 0; overflow: hidden;
+}
+.portada .landing-header { width: 100%; height: clamp(66px, 10dvh, 86px); min-height: 0; }
+.portada .landing-main {
+  width: 100%; min-width: 0; min-height: 0; height: 100%;
+  padding: 0 clamp(10px, 2.1vw, 30px);
+  display: grid; grid-template-rows: minmax(0, 1fr);
+}
+.portada .hero { height: 100%; min-height: 0; }
+.portada .hero-copy { padding-top: clamp(20px, 4dvh, 52px); padding-bottom: clamp(32px, 5dvh, 55px); }
+.portada .hero-underbar { padding: clamp(7px, 1.5dvh, 14px) 3%; }
+.portada .landing-pie-simple { padding: 5px 12px 8px; font-size: .73rem; border-top: 0; }
+
+body.pagina-acceso {
+  height: 100vh; height: 100dvh; min-height: 0; overflow: hidden;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.pagina-acceso .acceso-visual { height: 100%; min-height: 0; }
+body.pagina-acceso main.estrecho {
+  height: 100%; min-height: 0; align-self: stretch; width: min(100%, 650px);
+  overflow-y: auto; overscroll-behavior-y: contain;
+  display: flex; flex-direction: column; justify-content: safe center;
+  padding-top: clamp(12px, 2.7dvh, 34px); padding-bottom: clamp(12px, 2.7dvh, 34px);
+  scrollbar-width: thin;
+}
+body.pagina-acceso main.estrecho > * { flex-shrink: 0; }
+body.pagina-acceso main.estrecho > .sumario { margin-bottom: clamp(12px, 2dvh, 24px); }
+body.pagina-acceso main.estrecho > h2 { font-size: clamp(1.65rem, 3dvh, 2.3rem); }
+body.pagina-acceso .tarjeta { padding: clamp(14px, 2.2dvh, 26px); margin-bottom: 12px; }
+body.pagina-acceso .app-pie {
+  padding-block: 6px 9px; min-height: 0; line-height: 1.2;
+  font-size: .71rem; align-items: center;
+}
+body.pagina-acceso .campo + .campo { margin-top: 11px; }
+body.pagina-acceso .tarjeta .acciones { margin-top: 14px; }
+
+@media (max-width: 767px) {
+  .portada .landing-header { min-height: 0; height: 72px; }
+  .portada .landing-main { padding-inline: 10px; }
+  .portada .hero { align-items: center; }
+  .portada .hero-copy { width: 100%; padding: clamp(20px, 5dvh, 42px) 22px 34px; }
+  .portada .hero h1 { font-size: clamp(2.05rem, 9vw, 3rem); margin-bottom: 13px; }
+  .portada .hero-sub { font-size: clamp(.84rem, 3vw, .98rem); line-height: 1.45; margin-bottom: 16px; }
+  .portada .eyebrow { margin-bottom: 13px; }
+  .portada .hero-actions { gap: 8px; }
+  .portada .hero-actions .btn { min-height: 43px; padding: 9px 12px; }
+  .portada .hero-caption { bottom: 10px; left: 18px; }
+  .portada .hero-underbar { flex-direction: row; gap: 8px; padding: 9px 4px; font-size: .66rem; }
+  .portada .hero-underbar > span { align-items: flex-start; flex: 1 1 0; line-height: 1.2; }
+  .portada .hero-underbar svg { width: 15px; height: 15px; }
+  .portada .landing-pie-simple { font-size: .62rem; line-height: 1.2; }
+
+  body.pagina-acceso { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+  body.pagina-acceso .barra { grid-column: 1; grid-row: 1; }
+  body.pagina-acceso .acceso-visual { display: none; }
+  body.pagina-acceso main.estrecho {
+    grid-column: 1; grid-row: 2; max-width: 540px; justify-self: center;
+    padding: 14px 20px; margin: 0 auto;
+  }
+  body.pagina-acceso main.estrecho > .sumario { font-size: .89rem; line-height: 1.4; margin-bottom: 13px; }
+  body.pagina-acceso .tarjeta { padding: 16px 18px; margin-bottom: 10px; }
+  body.pagina-acceso .app-pie { grid-column: 1; grid-row: 3; padding: 6px 12px; text-align: center; }
+}
+@media (max-width: 480px) {
+  body.pagina-acceso main.estrecho { padding-inline: 14px; }
+  body.pagina-acceso .tarjeta { padding: 13px 15px; }
+  body.pagina-acceso input { min-height: 44px; height: 44px; }
+  body.pagina-acceso main.estrecho > h2 { font-size: 1.65rem; }
+  .portada .hero-orbit { opacity: .35; }
+}
+@media (max-height: 670px) {
+  .portada .landing-header { height: 66px; }
+  .portada .hero h1 { font-size: clamp(1.9rem, 4.4vw, 3.4rem); }
+  .portada .hero-sub { font-size: .87rem; line-height: 1.35; margin-bottom: 13px; }
+  .portada .hero-caption { display: none; }
+  .portada .hero-underbar { padding-block: 6px; }
+  body.pagina-acceso main.estrecho > .sumario { margin-bottom: 10px; }
+  body.pagina-acceso .campo + .campo { margin-top: 8px; }
+  body.pagina-acceso .tarjeta { padding-block: 12px; }
+  body.pagina-acceso label { margin-bottom: 3px; }
+}
+/* En pantallas realmente bajas o con zoom, el contenido sigue accesible
+   mediante un desplazamiento interno, en lugar de quedar recortado. */
+@media (max-height: 460px) {
+  .portada .landing-main { overflow-y: auto; display: block; }
+  .portada .hero { min-height: 340px; height: auto; }
+  .portada .hero-copy { padding-block: 30px; }
+  body.pagina-acceso main.estrecho { justify-content: flex-start; }
+}
+
+
+/* Ubicar texto y acciones por encima de la fila de beneficios interna */
+.portada .hero-copy { padding-bottom: clamp(112px, 16dvh, 152px); }
+@media (max-width:767px) {
+  .portada .hero-copy {
+    padding-top: clamp(12px, 2.5dvh, 28px);
+    padding-bottom: clamp(139px, 21dvh, 174px);
+  }
+}
+@media (max-width:767px) and (max-height: 650px) {
+  .portada .hero-copy {
+    padding-top: 6px;
+    padding-bottom: 115px;
+  }
+  .portada .hero h1 { font-size:clamp(1.86rem, 8.3vw, 2.5rem); }
+  .portada .hero-sub { font-size: .82rem; line-height:1.35; margin-bottom: 11px; }
+  .portada .eyebrow { margin-bottom: 9px; }
+  .portada .hero-actions .btn { min-height: 40px; padding: 7px 10px; }
+}
+@media (max-height: 460px) {
+  .portada .landing-main { overflow-y:auto; }
+  .portada .hero { min-height: 390px; }
+}

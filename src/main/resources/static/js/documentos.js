@@ -1,4 +1,4 @@
-/* Navesitas — camara 5 del expediente: documentos de la nave.
+/* Navecitas — camara 5 del expediente: documentos de la nave.
    HU-07: carga de documentos.
    HU-08: consulta del estado de los documentos.
    HU-12 (Sprint 6): la DGMM aprueba u observa cada documento.

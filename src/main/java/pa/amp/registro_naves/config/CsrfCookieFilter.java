@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * Desde Spring Security 6 el token CSRF es "perezoso": la cookie solo se
  * escribe cuando alguien lee el token en el servidor. Las pantallas de
- * Navesitas son HTML estatico y nunca lo leen, asi que la cookie no llegaba
+ * Navecitas son HTML estatico y nunca lo leen, asi que la cookie no llegaba
  * al navegador, el JS no tenia que mandar en X-XSRF-TOKEN y todo POST
  * (incluido el login) era rechazado. Este filtro lee el token en cada
  * peticion para que la cookie se escriba.

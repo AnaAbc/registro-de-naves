@@ -56,9 +56,7 @@ public class SecurityConfig {
                     "/actuator/health"
                 ).permitAll()
 
-                // Registro publico y consulta de sesion.
-                .requestMatchers(org.springframework.http.HttpMethod.GET,
-                    "/verificar-patente.html", "/api/verificacion/patentes/*").permitAll()
+                // Registro público y consulta de sesión.
                 .requestMatchers(
                     "/api/auth/registro",
                     "/api/auth/sesion"
@@ -76,9 +74,13 @@ public class SecurityConfig {
                     "/admin-usuarios.html"
                 ).hasRole("ADMINISTRADOR")
 
-                // Las demas rutas requieren sesion.
+                // Verificación y consulta de patentes reservadas al funcionario DGMM.
+                .requestMatchers("/verificar-patente.html", "/api/verificacion/patentes/**")
+                    .hasRole("FUNCIONARIO_DGMM")
+
+                // Las demás rutas requieren sesión.
                 .requestMatchers("/reportes.html").hasAnyRole("FUNCIONARIO_DGMM", "AUDITOR")
-                .requestMatchers("/guia-requisitos.html").hasRole("AGENTE_NAVIERO")
+                .requestMatchers("/guia-requisitos.html", "/mis-naves.html").hasRole("AGENTE_NAVIERO")
                 .requestMatchers("/patentes.html", "/patente-provisional.html").hasAnyRole("AGENTE_NAVIERO", "FUNCIONARIO_DGMM", "AUDITOR")
                 .anyRequest().authenticated()
             )

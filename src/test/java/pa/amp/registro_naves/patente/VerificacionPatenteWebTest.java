@@ -22,11 +22,26 @@ class VerificacionPatenteWebTest {
     @MockitoBean PatenteService servicio;
     @MockitoBean UserDetailsService usuarios;
 
-    @Test void consultaAnonimaLimitadaYErroresClaros() throws Exception {
+    @Test void soloDGMMConsultaPatentesYErroresClaros() throws Exception {
+        UUID otro=UUID.randomUUID();
+        mvc.perform(get("/verificar-patente.html")).andExpect(status().is3xxRedirection());
+        mvc.perform(get("/api/verificacion/patentes/"+otro)).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/verificacion/patentes/"+otro).with(user("agente").roles("AGENTE_NAVIERO")))
+            .andExpect(status().isForbidden());
+        mvc.perform(get("/api/verificacion/patentes/"+otro).with(user("auditor").roles("AUDITOR")))
+            .andExpect(status().isForbidden());
+        mvc.perform(get("/api/verificacion/patentes/"+otro).with(user("admin").roles("ADMINISTRADOR")))
+            .andExpect(status().isForbidden());
+        mvc.perform(get("/verificar-patente.html").with(user("agente").roles("AGENTE_NAVIERO")))
+            .andExpect(status().isForbidden());
+        verifyNoInteractions(servicio);
+        mvc.perform(get("/verificar-patente.html").with(user("dgmm").roles("FUNCIONARIO_DGMM")))
+            .andExpect(status().isOk());
         UUID token=UUID.randomUUID();
         when(servicio.verificar(token)).thenReturn(new PatenteService.Verificacion("PRUEBA-42",
             "2026-11-14T10:20:00-05:00","APROBADA","Sin vencimiento definido","Modelo académico — sin validez oficial"));
-        mvc.perform(get("/api/verificacion/patentes/"+token)).andExpect(status().isOk())
+        mvc.perform(get("/api/verificacion/patentes/"+token).with(user("dgmm").roles("FUNCIONARIO_DGMM")))
+            .andExpect(status().isOk())
             .andExpect(header().string("Cache-Control","no-store"))
             .andExpect(header().string("Referrer-Policy","no-referrer"))
             .andExpect(jsonPath("$.length()").value(5))
@@ -37,8 +52,10 @@ class VerificacionPatenteWebTest {
             .andExpect(jsonPath("$.documentos").doesNotExist());
         UUID ausente=UUID.randomUUID();
         when(servicio.verificar(ausente)).thenThrow(new RecursoNoEncontradoException("Patente no encontrada."));
-        mvc.perform(get("/api/verificacion/patentes/"+ausente)).andExpect(status().isNotFound());
-        mvc.perform(get("/api/verificacion/patentes/1")).andExpect(status().isBadRequest());
+        mvc.perform(get("/api/verificacion/patentes/"+ausente).with(user("dgmm").roles("FUNCIONARIO_DGMM")))
+            .andExpect(status().isNotFound());
+        mvc.perform(get("/api/verificacion/patentes/1").with(user("dgmm").roles("FUNCIONARIO_DGMM")))
+            .andExpect(status().isBadRequest());
     }
 
     @Test void descargaSigueProtegidaYDevuelvePdfSinCache() throws Exception {

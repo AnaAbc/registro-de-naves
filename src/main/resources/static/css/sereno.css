@@ -1,0 +1,219 @@
+/* Navecitas · renovacion visual 2026.
+   Solo capa de presentacion; no se modifican identificadores funcionales,
+   eventos, validaciones, API, estado, roles ni permisos. */
+:root {
+  color-scheme: light;
+  --white-bg: #ffffff;
+  --light-beige-bg: #fdf6e3;
+  --aqua-green: #a8dadc;
+  --soft-grey: #e0e0e0;
+  --sky-blue: #87ceeb;
+  --lavender: #e6e6fa;
+  --mint-green: #98fb98;
+  --border-radius-md: 8px;
+  --font-main: "Nunito", "Atkinson Hyperlegible Next", sans-serif;
+  --shadow-calm: 0 1px 3px rgba(0,0,0,.03);
+  --muro: #134c57;
+  --muro-texto: #5c7379;
+  --tinta: #2a3e43;
+  --tinta-suave: #63767a;
+  --hormigon: #f8faf9;
+  --hormigon-alto: #f5faf9;
+  --superficie: #fff;
+  --filete: #e0eae8;
+  --filete-campo: #95afb1;
+  --seguridad: #a8dadc;
+  --agua: #167884;
+  --agua-hondo: #125e69;
+  --agua-clara: #d8f0ef;
+  --neutro-fondo: #f3f9f8;
+  --letra: var(--font-main);
+  --radio: 16px;
+  --radio-control: 8px;
+  --sombra: 0 2px 8px rgba(18,69,77,.055);
+  --sombra-barra: 0 1px 3px rgba(0,0,0,.035);
+  --bienvenida: #134c57;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--hormigon); color: var(--tinta); min-height: 100dvh; }
+body:not(.portada) { background-color: #f8faf9; }
+/* The background above is a barely perceptible soft atmospheric tint, not a decorative UI gradient. */
+.barra {
+  background: rgba(255,255,255,.97); color: var(--tinta);
+  min-height: 82px; padding: 16px max(30px, calc((100vw - 1280px)/2));
+  border-bottom: 1px solid var(--filete); box-shadow: var(--shadow-calm);
+  gap: 12px 22px;
+}
+.barra::before { content:""; display:inline-block; width:34px; height:34px; flex:none;
+  background: var(--agua-hondo); mask: url('/css/imagenes/ship-icon.svg') center/contain no-repeat;
+  -webkit-mask: url('/css/imagenes/ship-icon.svg') center/contain no-repeat; }
+.barra h1 { font-size:1.24rem; font-weight:800; letter-spacing:-.04em; color:#194d56; }
+.barra > span { color:var(--tinta-suave); font-size:.84rem; }
+.barra .derecha, .barra #sesion { color:var(--tinta-suave); margin-left:auto; font-size:.86rem; }
+.barra a { color:var(--agua-hondo); font-weight:700; }
+.barra a:hover { color: var(--agua); }
+.barra :focus-visible { outline-color:var(--agua); }
+main { max-width:1280px; padding: 47px 28px 80px; }
+main.estrecho { max-width:600px; }
+main > h2 { color: #253d42; font-size:clamp(1.95rem,3vw,2.48rem); font-weight:800; letter-spacing:-.035em; margin-bottom:13px; }
+main > h2::before { content:"NAVECITAS  /  PLATAFORMA"; display:block; margin:0 0 12px;
+  font-size:.66rem; letter-spacing:.19em; font-weight:800; color:var(--agua); }
+.sumario { color:var(--tinta-suave); max-width:77ch; font-size: .98rem; line-height:1.7; }
+.migas { margin-bottom:25px; display:flex; flex-wrap:wrap; gap:8px 12px; color:#a1b8b9; }
+.migas a { color:var(--agua-hondo); padding:7px 12px; background:#edf7f6;
+  border:1px solid #d4eae8; border-radius:8px; font-size:.82rem; text-decoration:none; }
+.migas a:hover { background:#d9efed; }
+.tarjeta { border:1px solid var(--filete); border-radius:16px; padding:28px 32px; margin-bottom:20px; box-shadow:var(--sombra); background:#fff; }
+.tarjeta h3 { color:#29474c; font-weight:800; }
+.camara { padding-top:32px; }
+.camara::before { height:3px; background:#a8dadc; border-radius:16px 16px 0 0; }
+.placa { width:38px; height:38px; border-radius:10px; background:#e1f4f1; color:#116c75; border-color:#d3e9e7; font-size:1.1rem; }
+fieldset { border-color:var(--filete); }
+input,select,textarea { border-radius:8px !important; background:#fff; border-color:#cbdcda !important;
+  transition:border-color .2s ease,box-shadow .2s ease, background-color .2s ease; }
+input:hover:not(:disabled), select:hover:not(:disabled), textarea:hover:not(:disabled) { border-color:#7cb9b9 !important; }
+input:focus, select:focus, textarea:focus { border-color:var(--agua) !important; box-shadow:0 0 0 3px #a8dadc66; outline:0; }
+button, .boton, a.boton { background:#14737e; border-color:#14737e; border-radius:8px; font-weight:750;
+  transition:transform .2s ease,background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+  cursor:pointer; }
+button:hover:not(:disabled), .boton:hover, a.boton:hover { background:#0e5963; border-color:#0e5963; box-shadow:0 2px 8px #134c5719; transform:translateY(-1px); }
+button:active:not(:disabled), .boton:active { transform:translateY(1px); }
+button.secundario, .secundario { background:#fff; color:#165e6a; border-color:#bcd9d8; }
+button.secundario:hover:not(:disabled), .secundario:hover { background:#edf7f6; color:#134c57; border-color:#9bc9c7; }
+button:disabled { cursor:not-allowed; }
+label, legend { color:#39595f; font-weight:700; }
+.tabla-desplazable { border:1px solid var(--filete); border-radius:10px; }
+table { border-collapse:collapse; }
+th { background:#f2f8f7; color:#43676d; }
+td { border-color:#e9f0ef; }
+tr:hover td { background:#fbfdfc; }
+.chip { background:#f0f8f7; color:#30656d; border-color:#cfe4e2; }
+.chip[aria-pressed="true"] { background:var(--agua-hondo); color:#fff; border-color:var(--agua-hondo); }
+.veredicto:not(:empty) { border-radius:8px; }
+.app-pie { display:flex; flex-wrap:wrap; justify-content:space-between; gap:14px;
+  border-top:1px solid #e2eeec; max-width:1280px; margin:0 auto; padding:22px 28px 30px;
+  font-size:.79rem; color:#718789; }
+.app-pie a { color:#477c82; text-decoration:none; }
+.app-pie a:hover { text-decoration:underline; }
+/* Access pages: ship photo + translucent, softly blurred invitation. */
+body.pagina-acceso { display:grid; grid-template-columns:minmax(0,1.06fr) minmax(420px,.94fr); grid-template-rows:auto 1fr auto;
+  background:#f8faf9; }
+.pagina-acceso .barra { grid-column:1/-1; z-index:2; }
+.pagina-acceso .acceso-visual { position:relative; min-height:calc(100dvh - 82px); grid-column:1; grid-row:2;
+  display:flex; align-items:flex-end; padding:clamp(30px,6vw,90px); isolation:isolate; overflow:hidden; color:#fff;
+  background:#074f5d url('/css/imagenes/hero-navesitas.png') 34% center/cover no-repeat; }
+.pagina-acceso .acceso-visual::before { content:""; position:absolute; inset:0; z-index:-1; background:rgba(4,31,44,.3); }
+.pagina-acceso .acceso-visual::after { content:""; position:absolute; z-index:-1; right:-100px; bottom:-100px;
+  width:300px; height:300px; border-radius:50%; border:1px solid #ffffff38; box-shadow:0 0 0 70px #ffffff06; }
+.pagina-acceso .acceso-visual > div { padding:25px 29px; border-radius:16px; max-width:510px;
+  border:1px solid #ffffff66; background:#113f4c8c; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.pagina-acceso .acceso-visual .acceso-etiqueta { text-transform:uppercase; letter-spacing:.24em;
+  font-size:.72rem; font-weight:800; color:#c2e6e5; }
+.pagina-acceso .acceso-visual h2 { font-size:clamp(1.9rem,3.4vw,3.1rem); line-height:1.1; margin:16px 0; letter-spacing:-.045em; }
+.pagina-acceso .acceso-visual p { line-height:1.65; margin:0; color:#e9f4f5; }
+.pagina-acceso main.estrecho { grid-column:2; grid-row:2; width:min(100%,580px); max-width:none;
+  padding: clamp(35px,5.2vw,85px) clamp(32px,5vw,78px); align-self:center; }
+.pagina-acceso main > h2::before { content:"ACCESO SEGURO  /  NAVECITAS"; }
+.pagina-acceso .tarjeta { padding:28px; border-radius:16px; box-shadow:0 2px 8px #134c570b; }
+.pagina-acceso .tarjeta .acciones button { min-width:175px; }
+.pagina-acceso .app-pie { grid-column:1/-1; width:100%; max-width:none; padding-inline:32px; }
+/* Responsive. Preserve existing functional mobile table and form rules. */
+@media(max-width:950px) {
+  body.pagina-acceso { grid-template-columns:1fr 1fr; }
+  .pagina-acceso .acceso-visual { padding:35px; }
+  .pagina-acceso main.estrecho { padding:50px 25px; }
+}
+@media(max-width:767px) {
+  .barra { padding:15px 20px; min-height:72px; gap:6px 12px; }
+  .barra h1 { font-size:1.1rem; }
+  .barra::before { width:28px; height:28px; }
+  .barra > span { font-size:.74rem; }
+  main { padding:32px 18px 60px; }
+  .tarjeta { padding:22px 20px; }
+  main > h2 { font-size:1.96rem; }
+  body.pagina-acceso { display:flex; flex-direction:column; }
+  .pagina-acceso .acceso-visual { min-height:260px; padding:25px 20px; flex-shrink:0; background-position:30% 56%; }
+  .pagina-acceso .acceso-visual > div { padding:19px; }
+  .pagina-acceso .acceso-visual h2 { font-size:1.7rem; margin:9px 0; }
+  .pagina-acceso .acceso-visual p { font-size:.85rem; }
+  .pagina-acceso main.estrecho { margin:0 auto; align-self:stretch; padding:34px 22px 55px; }
+  .pagina-acceso .tarjeta { padding:22px; }
+  .app-pie { padding:18px; }
+}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; } }
+/* Header contrast on access screens: override legacy .pagina-acceso rule. */
+body.pagina-acceso .barra { background:#fff; color:#23474e; border-bottom:1px solid #e0eae8; }
+body.pagina-acceso .barra > span { color:#63767a; }
+body.pagina-acceso .barra h1 { color:#194d56; }
+
+
+/* === Encabezados de sección con descripción dentro del panel === */
+.encabezado-pagina { margin: 0 0 24px; }
+.encabezado-pagina__tarjeta {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: min(100%, 940px);
+  padding: 21px 26px 20px;
+  border-radius: 20px;
+  background: linear-gradient(150deg, #edf8f6 0%, #e4f1ef 100%);
+  border: 1px solid #d5e9e6;
+  box-shadow: 0 14px 28px rgba(16,74,82,.06);
+}
+.encabezado-pagina__fila {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-width: 0;
+}
+.encabezado-pagina__icono {
+  width: 55px;
+  height: 55px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #fff;
+  color: #35515a;
+  border: 1px solid #d7e8e7;
+  box-shadow: 0 6px 14px rgba(17,81,89,.07);
+}
+.encabezado-pagina__icono svg { width: 27px; height: 27px; }
+.encabezado-pagina__contenido { min-width: 0; }
+.encabezado-pagina__etiqueta {
+  display: block;
+  margin: 0 0 6px;
+  font-size: .67rem;
+  letter-spacing: .2em;
+  font-weight: 800;
+  color: var(--agua);
+}
+.encabezado-pagina h2 {
+  margin: 0;
+  color: #253d42;
+  font-size: clamp(1.75rem, 2.7vw, 2.48rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+.encabezado-pagina h2::before { content: none !important; display: none !important; }
+.encabezado-pagina .sumario {
+  max-width: none;
+  margin: 16px 0 0;
+  padding: 14px 2px 0;
+  border-top: 1px solid #cbe3df;
+  color: #43646d;
+  font-size: .96rem;
+  line-height: 1.6;
+}
+@media (max-width: 720px) {
+  .encabezado-pagina { margin-bottom: 18px; }
+  .encabezado-pagina__tarjeta { width: 100%; padding: 16px 17px; border-radius: 16px; }
+  .encabezado-pagina__fila { gap: 12px; }
+  .encabezado-pagina__icono { width: 46px; height: 46px; border-radius: 13px; }
+  .encabezado-pagina__icono svg { width: 23px; height: 23px; }
+  .encabezado-pagina__etiqueta { font-size: .58rem; margin-bottom: 4px; letter-spacing: .16em; }
+  .encabezado-pagina h2 { font-size: clamp(1.35rem, 5.4vw, 1.95rem); }
+  .encabezado-pagina .sumario { margin-top: 13px; padding-top: 11px; font-size: .91rem; line-height: 1.52; }
+}

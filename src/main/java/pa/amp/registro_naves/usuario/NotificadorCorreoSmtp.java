@@ -45,11 +45,11 @@ public class NotificadorCorreoSmtp implements NotificadorCorreo {
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setFrom(remitente);
         mensaje.setTo(destinatario);
-        mensaje.setSubject("Navesitas: confirme su correo");
+        mensaje.setSubject("Navecitas: confirme su correo");
         mensaje.setText("""
                 Hola %s:
 
-                Se creo una cuenta en Navesitas con este correo. Para activarla,
+                Se creo una cuenta en Navecitas con este correo. Para activarla,
                 abra este enlace:
 
                 %s
