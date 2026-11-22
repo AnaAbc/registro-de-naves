@@ -132,7 +132,7 @@ public class SecurityConfig {
                 )
                 .defaultAuthenticationEntryPointFor(
                     new LoginUrlAuthenticationEntryPoint("/login.html"),
-                    request -> !ES_API.matches(request)
+                    request -> "/verificar-patente.html".equals(request.getRequestURI())
                 )
             );
 
