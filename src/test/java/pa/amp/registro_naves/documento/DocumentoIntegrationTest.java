@@ -427,4 +427,27 @@ class DocumentoIntegrationTest {
                                 """))
            .andExpect(status().isCreated());
     }
+
+    @Test
+    void recuperaPdfDesdePostgresqlConUnDirectorioNuevo(
+            @Autowired org.springframework.jdbc.core.JdbcTemplate db,
+            @org.junit.jupiter.api.io.TempDir Path directorio) throws Exception {
+        byte[] contenido = pdf("archivo persistente");
+        MockMultipartFile archivo = archivo("persistente.pdf", contenido);
+        MvcResult carga = mvc.perform(cargar(nave, "ITC", archivo).with(user(AGENTE)).with(csrf()))
+                .andExpect(status().isCreated()).andReturn();
+
+        Documento documento = documentos.findById(idDe(carga)).orElseThrow();
+        Path cacheInicial = directorio.resolve("primera-replica");
+        AlmacenArchivos primerAlmacen = new AlmacenArchivos(cacheInicial.toString(), true, db);
+        AlmacenArchivos.Guardado guardado = primerAlmacen.guardar(nave, archivo);
+        documento.setRuta(guardado.rutaRelativa());
+        documentos.saveAndFlush(documento);
+        db.execute("SET CONSTRAINTS fk_documento_archivo_ruta IMMEDIATE");
+        assertThat(Files.exists(cacheInicial)).isFalse();
+
+        Path cacheNueva = directorio.resolve("nueva-replica");
+        AlmacenArchivos nuevaReplica = new AlmacenArchivos(cacheNueva.toString(), true, db);
+        assertThat(Files.readAllBytes(nuevaReplica.ubicar(documento.getRuta()))).isEqualTo(contenido);
+    }
 }
