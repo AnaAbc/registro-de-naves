@@ -1,6 +1,7 @@
 package pa.amp.registro_naves.documento;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,48 +18,53 @@ import java.util.HexFormat;
 import java.util.UUID;
 
 /**
- * Guarda los PDF en disco, en una carpeta fuera de static/.
- *
- * Por que fuera de static/: SecurityConfig solo publica /css/ y /js/, y
- * Spring solo sirve lo que esta en classpath:/static. Una carpeta en la
- * raiz del proyecto no tiene URL; la unica forma de leer un archivo es el
- * endpoint de descarga, que es donde se verifica la propiedad de la nave.
- *
- * HU-07, criterio 5: la ruta la arma el servidor con el id de la nave y
- * un UUID. El nombre que manda el cliente nunca toca el sistema de
- * archivos, asi que "../../etc/passwd" no tiene a donde ir.
+ * Almacena los PDF fuera de static/. La ruta la genera el servidor con el id
+ * de la nave y un UUID, y los servicios validan el acceso antes de leerla.
+ * Cuando se usa PostgreSQL, el directorio local sirve como caché de lectura.
  */
 @Component
 public class AlmacenArchivos {
 
     private final Path raiz;
+    private final JdbcTemplate db;
+    private final boolean guardarEnPostgresql;
 
-    public AlmacenArchivos(@Value("${navesitas.almacen.ruta:almacen}") String ruta) {
+    public AlmacenArchivos(@Value("${navesitas.almacen.ruta:almacen}") String ruta,
+                           @Value("${navesitas.almacen.postgresql:false}") boolean guardarEnPostgresql,
+                           JdbcTemplate db) {
         this.raiz = Path.of(ruta).toAbsolutePath().normalize();
+        this.guardarEnPostgresql = guardarEnPostgresql;
+        this.db = db;
     }
 
-    /** Resultado de guardar: ruta relativa (para la base) y hash del contenido. */
+    /** Resultado de guardar: ruta relativa para la base y hash del contenido. */
     public record Guardado(String rutaRelativa, String hashSha256, long tamanoBytes) {}
 
     public Guardado guardar(Long naveId, MultipartFile archivo) {
         String relativa = naveId + "/" + UUID.randomUUID() + ".pdf";
-        Path destino = resolver(relativa);
-
         try {
-            Files.createDirectories(destino.getParent());
-
-            // Se escribe primero a un temporal y se mueve al final: si la
-            // copia se corta, no queda un PDF a medias con nombre definitivo.
-            Path temporal = Files.createTempFile(destino.getParent(), "carga-", ".tmp");
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-            long tamano;
-            try (InputStream entrada = new DigestInputStream(archivo.getInputStream(), sha256)) {
-                tamano = Files.copy(entrada, temporal, StandardCopyOption.REPLACE_EXISTING);
+            if (guardarEnPostgresql) {
+                byte[] contenido = archivo.getBytes();
+                // La clave foránea se comprueba al confirmar la transacción.
+                // DocumentoService guarda los metadatos en esa misma transacción.
+                db.update("INSERT INTO documento_archivo (ruta, contenido) VALUES (?, ?)", relativa, contenido);
+                return new Guardado(relativa, HexFormat.of().formatHex(sha256.digest(contenido)), contenido.length);
             }
-            Files.move(temporal, destino, StandardCopyOption.ATOMIC_MOVE);
 
-            return new Guardado(relativa, HexFormat.of().formatHex(sha256.digest()), tamano);
-
+            Path destino = resolver(relativa);
+            Files.createDirectories(destino.getParent());
+            Path temporal = Files.createTempFile(destino.getParent(), "carga-", ".tmp");
+            try {
+                long tamano;
+                try (InputStream entrada = new DigestInputStream(archivo.getInputStream(), sha256)) {
+                    tamano = Files.copy(entrada, temporal, StandardCopyOption.REPLACE_EXISTING);
+                }
+                Files.move(temporal, destino, StandardCopyOption.ATOMIC_MOVE);
+                return new Guardado(relativa, HexFormat.of().formatHex(sha256.digest()), tamano);
+            } finally {
+                Files.deleteIfExists(temporal);
+            }
         } catch (IOException e) {
             throw new UncheckedIOException("No se pudo guardar el archivo", e);
         } catch (NoSuchAlgorithmException e) {
@@ -67,22 +73,41 @@ public class AlmacenArchivos {
     }
 
     public Path ubicar(String rutaRelativa) {
-        return resolver(rutaRelativa);
+        Path destino = resolver(rutaRelativa);
+        if (!guardarEnPostgresql || Files.isRegularFile(destino)) {
+            return destino;
+        }
+
+        byte[] contenido = db.query("SELECT contenido FROM documento_archivo WHERE ruta = ?",
+                rs -> rs.next() ? rs.getBytes("contenido") : null, rutaRelativa);
+        if (contenido == null) {
+            return destino;
+        }
+
+        try {
+            Files.createDirectories(destino.getParent());
+            Path temporal = Files.createTempFile(destino.getParent(), "descarga-", ".tmp");
+            try {
+                Files.write(temporal, contenido);
+                Files.move(temporal, destino, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } finally {
+                Files.deleteIfExists(temporal);
+            }
+            return destino;
+        } catch (IOException e) {
+            throw new UncheckedIOException("No se pudo recuperar el archivo", e);
+        }
     }
 
-    /** Se usa para deshacer la escritura si la base rechaza el registro. */
+    /** En PostgreSQL, la transacción revierte los metadatos y el archivo juntos. */
     public void borrarSilencioso(String rutaRelativa) {
         try {
             Files.deleteIfExists(resolver(rutaRelativa));
         } catch (IOException | RuntimeException ignorada) {
-            // Queda un archivo huerfano en disco; no es motivo para tapar el error original.
+            // Un error de limpieza no debe ocultar el fallo original de la carga.
         }
     }
 
-    /**
-     * Segunda barrera contra recorrido de rutas: aunque la ruta la genera
-     * el servidor, se verifica que el resultado siga dentro del almacen.
-     */
     private Path resolver(String rutaRelativa) {
         Path ruta = raiz.resolve(rutaRelativa).normalize();
         if (!ruta.startsWith(raiz)) {
