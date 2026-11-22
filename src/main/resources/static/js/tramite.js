@@ -1,4 +1,4 @@
-/* Navesitas — estado del tramite (HU-09), camara 6 del expediente.
+/* Navecitas — estado del tramite (HU-09), camara 6 del expediente.
 
    El servidor decide que acciones puede pedir quien mira (rol, relacion
    con la nave y estado actual) y las manda en "acciones". Aqui se pinta un

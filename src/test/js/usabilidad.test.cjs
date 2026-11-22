@@ -23,7 +23,7 @@ function pantalla(responder) {
 const respuesta=(status,datos)=>({status,ok:status>=200&&status<300,text:async()=>JSON.stringify(datos),json:async()=>datos});
 function comunes(p){p.ejecutar(fs.readFileSync('src/main/resources/static/js/comun.js','utf8'));}
 function acceso(p,archivo){
-  for(const id of ['form-login','btn-entrar','aviso-login','form-reenvio','aviso-reenvio','correo-reenvio','form-registro','aviso-registro','btn-crear','nombreCompleto','correo','password','rol'])p.elemento(id);
+  for(const id of ['form-login','btn-entrar','aviso-login','form-reenvio','aviso-reenvio','correo-reenvio','form-registro','aviso-registro','btn-crear','nombreCompleto','correo','password'])p.elemento(id);
   const html=fs.readFileSync('src/main/resources/static/'+archivo,'utf8');
   for(const m of html.matchAll(/<script>([\s\S]*?)<\/script>/g))p.ejecutar(m[1]);
 }
@@ -81,4 +81,25 @@ test('aviso se puede cerrar y el texto nunca se interpreta como HTML',()=>{
   assert.equal(p.mapa.get('aviso-global-texto').textContent,'<img src=x onerror=alert(1)>');
   assert.equal(p.mapa.get('aviso-global-texto').innerHTML,'');
   p.mapa.get('aviso-global').hijos[1].eventos.click();assert.equal(p.mapa.get('aviso-global').hidden,true);
+});
+
+test('registro público sin selector de rol: el servidor asigna agente naviero',async()=>{
+  let opciones;
+  const p=pantalla(async(r,o)=>{opciones=o;return respuesta(201,{});});
+  acceso(p,'registro-usuario.html');
+  const html=fs.readFileSync('src/main/resources/static/registro-usuario.html','utf8');
+  assert.doesNotMatch(html,/<select[^>]*id=["']rol["']/);
+  await p.mapa.get('form-registro').eventos.submit({preventDefault(){}});
+  assert.equal(Object.hasOwn(JSON.parse(opciones.body),'rol'),false);
+});
+
+test('sesión autenticada muestra nombre, rol y enlace rojo de cierre',async()=>{
+  const p=pantalla(async()=>respuesta(200,{autenticado:true,nombreCompleto:'Revisora de Trámites',rol:'FUNCIONARIO_DGMM'}));
+  p.elemento('sesion');p.elemento('btn-salir');comunes(p);
+  await p.ejecutar('pintarSesion()');
+  const salida=p.mapa.get('sesion').innerHTML;
+  assert.match(fs.readFileSync('src/main/resources/static/js/comun.js','utf8'),/escapar\(datos.nombreCompleto \|\| ''\)/);
+  assert.match(salida,/Funcionario DGMM/);
+  assert.match(salida,/Cerrar sesión/);
+  assert.match(salida,/id="btn-salir"/);
 });

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-04T06:52:39+00:00",
-  "title": "Design System: Navesitas",
+  "title": "Design System: Navecitas",
   "extensions": {
     "colorMeta": {
       "muro": {
@@ -436,7 +436,7 @@
       "kind": "nav",
       "refersTo": "barra",
       "description": "Muro negro con la marca, el subtítulo y la sesión.",
-      "html": "<header class=\"ds-barra\"><strong class=\"ds-marca\">Navesitas</strong><span class=\"ds-sub\">Registro de naves comerciales · DGMM</span><span class=\"ds-der\">Agente Naviero de Prueba · <a href=\"#\">Salir</a></span></header>",
+      "html": "<header class=\"ds-barra\"><strong class=\"ds-marca\">Navecitas</strong><span class=\"ds-sub\">Registro de naves comerciales · DGMM</span><span class=\"ds-der\">Agente Naviero de Prueba · <a href=\"#\">Salir</a></span></header>",
       "css": ".ds-barra { background:var(--muro,#15181c); color:#fff; min-height:56px; padding:8px 24px; display:flex; align-items:center; gap:8px 16px; flex-wrap:wrap; font-family:var(--letra, 'Atkinson Hyperlegible Next', system-ui, sans-serif); } .ds-marca { font-size:1.125rem; font-weight:700; letter-spacing:.01em; } .ds-sub { color:var(--muro-texto,#b9c0c8); font-size:.875rem; } .ds-der { margin-left:auto; } .ds-barra a { color:#fff; text-underline-offset:3px; } .ds-barra a:hover { color:var(--seguridad,#f2c400); } .ds-barra a:focus-visible { outline:2px solid var(--seguridad,#f2c400); outline-offset:2px; }"
     },
     {
@@ -474,7 +474,7 @@
   ],
   "narrative": {
     "northStar": "Esclusas del Canal",
-    "overview": "El trámite de registro se recorre como el paso de un buque por un juego de esclusas. Cada paso es una cámara numerada (1 nombre y 2 datos de la nave en la pantalla de registro; 3 propietarios y 4 agente residente en el expediente) y una cámara no se abre hasta que la anterior cumple su condición. El lenguaje visual viene de la señalética operativa de una esclusa: muro negro, hormigón claro, amarillo de seguridad para las placas numeradas y para la franja de compuerta, azul de agua para la cámara llena y la acción principal, y verde/rojo de semáforo para los avisos. Modo de trabajo: Operate. Es una herramienta de oficina para un agente naviero en escritorio, densa y sobria, no una página de presentación.\n\nEl sistema existe para que el usuario vea en qué cámara está, por qué la siguiente sigue cerrada y qué la abre. Un bloque deshabilitado nunca es solo un gris apagado: lleva la franja de compuerta en su borde superior, una placa blanca y, cuando hace falta, una leyenda que dice qué lo habilita. Se rechaza explícitamente el formulario de gobierno genérico, donde un bloque bloqueado no explica nada.\n\nNo se usa ninguna marca de la AMP ni del Canal de Panamá; la referencia es el oficio de la esclusa, no su identidad institucional. La identidad del producto (\"Navesitas\" frente a AMP/DGMM) es una decisión abierta registrada en PRODUCT.md y este sistema no la resuelve.",
+    "overview": "El trámite de registro se recorre como el paso de un buque por un juego de esclusas. Cada paso es una cámara numerada (1 nombre y 2 datos de la nave en la pantalla de registro; 3 propietarios y 4 agente residente en el expediente) y una cámara no se abre hasta que la anterior cumple su condición. El lenguaje visual viene de la señalética operativa de una esclusa: muro negro, hormigón claro, amarillo de seguridad para las placas numeradas y para la franja de compuerta, azul de agua para la cámara llena y la acción principal, y verde/rojo de semáforo para los avisos. Modo de trabajo: Operate. Es una herramienta de oficina para un agente naviero en escritorio, densa y sobria, no una página de presentación.\n\nEl sistema existe para que el usuario vea en qué cámara está, por qué la siguiente sigue cerrada y qué la abre. Un bloque deshabilitado nunca es solo un gris apagado: lleva la franja de compuerta en su borde superior, una placa blanca y, cuando hace falta, una leyenda que dice qué lo habilita. Se rechaza explícitamente el formulario de gobierno genérico, donde un bloque bloqueado no explica nada.\n\nNo se usa ninguna marca de la AMP ni del Canal de Panamá; la referencia es el oficio de la esclusa, no su identidad institucional. La identidad del producto (\"Navecitas\" frente a AMP/DGMM) es una decisión abierta registrada en PRODUCT.md y este sistema no la resuelve.",
     "keyCharacteristics": [
       "Cámaras numeradas con tres estados visibles: cerrada, activa y cruzada.",
       "Franja de compuerta amarilla y negra como firma; se retira hacia los muros al abrirse la cámara.",

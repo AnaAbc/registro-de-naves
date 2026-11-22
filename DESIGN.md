@@ -1,5 +1,5 @@
 ---
-name: Navesitas
+name: Navecitas
 description: Registro de naves comerciales como el paso por un juego de esclusas; cada cámara se llena antes de abrir la siguiente.
 colors:
   muro: "#15181c"
@@ -189,7 +189,7 @@ components:
     padding: "2px 8px"
 ---
 
-# Design System: Navesitas
+# Design System: Navecitas
 
 ## Overview
 
@@ -199,7 +199,7 @@ El trámite de registro se recorre como el paso de un buque por un juego de escl
 
 El sistema existe para que el usuario vea en qué cámara está, por qué la siguiente sigue cerrada y qué la abre. Un bloque deshabilitado nunca es solo un gris apagado: lleva la franja de compuerta en su borde superior, una placa blanca y, cuando hace falta, una leyenda que dice qué lo habilita. Se rechaza explícitamente el formulario de gobierno genérico, donde un bloque bloqueado no explica nada.
 
-No se usa ninguna marca de la AMP ni del Canal de Panamá; la referencia es el oficio de la esclusa, no su identidad institucional. La identidad del producto ("Navesitas" frente a AMP/DGMM) es una decisión abierta registrada en PRODUCT.md y este sistema no la resuelve.
+No se usa ninguna marca de la AMP ni del Canal de Panamá; la referencia es el oficio de la esclusa, no su identidad institucional. La identidad del producto ("Navecitas" frente a AMP/DGMM) es una decisión abierta registrada en PRODUCT.md y este sistema no la resuelve.
 
 **Key Characteristics:**
 - Cámaras numeradas con tres estados visibles: cerrada, activa y cruzada.

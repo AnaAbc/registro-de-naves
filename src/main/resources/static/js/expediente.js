@@ -1,4 +1,4 @@
-/* Navesitas — expediente de una nave.
+/* Navecitas — expediente de una nave.
    HU-05: registro y vinculacion de propietarios.
    HU-06: designacion y consulta del agente residente.
    HU-07 y HU-08 (camara 5) viven en documentos.js, que se carga antes.
@@ -34,7 +34,7 @@ async function cargarNave() {
   }
 
   $('titulo-nave').textContent = 'Expediente: ' + datos.nombre;
-  document.title = datos.nombre + ' — Navesitas';
+  document.title = datos.nombre + ' — Navecitas';
 
   $('ficha-nave').innerHTML = `
     <div><span>Registro</span><b class="cifra">${datos.id}</b></div>

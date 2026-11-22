@@ -3,21 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Alta de usuarios internos — Navesitas</title>
+<meta name="description" content="Navecitas: gestión de registros marítimos, expedientes, documentos y trámites.">
+  <title>Alta de usuarios internos — Navecitas</title>
   <link rel="stylesheet" href="/css/app.css">
+
+<link rel="stylesheet" href="/css/sereno.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/css/navegacion.css">
 </head>
 <body>
-<header class="barra">
-  <h1>Navesitas</h1>
-  <span>Administración de usuarios</span><div id="sesion"></div>
+<header class="barra barra-nueva">
+  <a class="app-marca" href="/" aria-label="Navecitas, ir al inicio">
+    <span class="app-marca-simbolo" aria-hidden="true"><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 28 24 21l19 7-6 11H11L5 28ZM14 23V13h20v10M21 13V7h6v6M4 43c6-6 10 6 17 0s11 6 17 0 9 2 9 2"/></svg></span>
+    <span class="app-marca-texto"><strong>Navecitas</strong><small>GESTIÓN MARÍTIMA</small></span>
+  </a>
+  <button class="app-menu-boton" id="app-menu-boton" type="button" aria-controls="app-navegacion" aria-expanded="false" aria-label="Abrir menú de navegación">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menú</span>
+  </button>
+  <nav id="app-navegacion" class="app-navegacion" aria-label="Navegación principal"></nav>
+  <span class="derecha app-sesion" id="sesion" aria-label="Cuenta conectada"></span>
 </header>
 
 <main class="estrecho">
-  <h2>Crear usuario interno</h2>
-  <p class="sumario">
-    Registre un funcionario DGMM o un auditor.
-    La persona deberá confirmar su correo para iniciar sesión.
-  </p>
+<section class="encabezado-pagina" aria-label="Cabecera de la sección">
+  <div class="encabezado-pagina__tarjeta">
+    <div class="encabezado-pagina__fila">
+      <span class="encabezado-pagina__icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 19a4 4 0 0 0-8 0"/><circle cx="11" cy="9" r="3"/><path d="M18 8v6"/><path d="M15 11h6"/></svg></span>
+    <div class="encabezado-pagina__contenido">
+      <span class="encabezado-pagina__etiqueta">NAVECITAS / PLATAFORMA</span>
+      <h2>Crear usuario interno</h2>
+    </div>
+    </div>
+    <p class="sumario">Registre un funcionario DGMM o un auditor. La persona deberá confirmar su correo para iniciar sesión</p>
+  </div>
+</section>
 
   <form class="tarjeta" id="form-alta" novalidate>
     <div class="campo">
@@ -159,5 +179,8 @@
     }
   });
 </script>
+
+<footer class="app-pie"><span>© 2026 Navecitas · Plataforma académica de registro marítimo. Sin validez oficial.</span></footer>
+<script src="/js/navegacion.js" defer></script>
 </body>
 </html>

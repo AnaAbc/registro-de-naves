@@ -1,0 +1,99 @@
+/* Navecitas · navegación unificada (escritorio y móvil). */
+.barra.barra-nueva {
+  position: sticky; top: 0; z-index: 250; isolation: isolate;
+  min-height: 86px; padding: 13px clamp(18px, 3vw, 42px);
+  display: flex; flex-wrap: nowrap; align-items: center; gap: clamp(14px, 2vw, 32px);
+  background: #fff; border-bottom: 1px solid #deebe9; box-shadow: 0 3px 15px #103b4909;
+}
+.barra.barra-nueva::before { display: none; }
+.barra-nueva .app-marca { display: inline-flex; align-items: center; gap: 14px; flex: none; text-decoration: none; }
+.barra-nueva .app-marca:hover { text-decoration: none; }
+.app-marca-simbolo { display: grid; place-items: center; width: 51px; height: 51px; border: 1px solid #cfe7e4;
+  border-radius: 14px; background: #e5f4f2; }
+.app-marca-simbolo svg { width: 30px; height: 30px; color: #166875; }
+.app-marca-texto strong { display: block; color: #23474e; font-size: 1.45rem; letter-spacing: -.05em; line-height: 1.15; }
+.app-marca-texto small { display: block; color: #719296; font-size: .66rem; font-weight: 850;
+  letter-spacing: .15em; white-space: nowrap; margin-top: 4px; }
+.barra-nueva .app-navegacion { display: flex; flex: 1; justify-content: flex-end; align-items: center;
+  gap: clamp(6px, .9vw, 14px); margin-left: auto; min-width: 0; }
+.app-navegacion a { display: inline-flex; align-items: center; min-height: 44px; padding: 9px 11px;
+  border-radius: 9px; color: #42626b; text-decoration: none; font-size: .91rem;
+  font-weight: 750; line-height: 1.15; white-space: nowrap; transition: background .18s ease, color .18s ease; }
+.app-navegacion a:hover, .app-navegacion a:focus-visible { background: #ecf7f4; color: #075d69; text-decoration: none; }
+.app-navegacion a[aria-current="page"] { background: #e2f2ef; color: #0b6670; }
+.barra.barra-nueva .app-sesion { display: flex; flex: none; gap: 12px; align-items: center;
+  margin-left: 0; padding-left: 16px; border-left: 1px solid #dce9e7; max-width: 315px;
+  font-size: .83rem; line-height: 1.4; color: #516e75; }
+.barra-nueva .app-sesion a { display: inline-flex; align-items: center; justify-content: center;
+  color: #145b67; white-space: nowrap; text-decoration: none; font-weight: 800;
+  padding: 7px 12px; border: 1px solid #bfd8d7; border-radius: 8px; background: #fff; }
+.barra-nueva .app-sesion a:hover { background: #f1f8f7; }
+.barra-nueva .app-sesion__identidad { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
+.barra-nueva .app-sesion__nombre { color: #3e5f66; line-height: 1.35; font-weight: 750;
+  overflow: hidden; text-overflow: ellipsis; max-width: 165px; }
+.barra-nueva .app-sesion__rol { color: #627f83; font-size: .74rem; line-height: 1.25; }
+.barra.barra-nueva .app-sesion #btn-salir {
+  flex: none; min-height: 42px; padding: 9px 13px;
+  background: #fff0f1; color: #a82231; border: 1px solid #efb7bd;
+  border-radius: 10px; font-weight: 850; white-space: nowrap;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.barra.barra-nueva .app-sesion #btn-salir:hover,
+.barra.barra-nueva .app-sesion #btn-salir:focus-visible {
+  background: #fbe0e3; color: #871725; border-color: #dd838e;
+}
+
+.barra-nueva .app-menu-boton { display: none; align-items: center; gap: 7px; padding: 8px 10px;
+  min-height: 44px; flex: none; background: #f0f8f6; color: #185e69;
+  border: 1px solid #cfe5e2; border-radius: 10px; font-size: .84rem; }
+/* Evitar texto blanco heredado del hover global de botones. */
+.barra.barra-nueva .app-menu-boton:hover:not(:disabled),
+.barra.barra-nueva .app-menu-boton:focus-visible {
+  background: #e2f2ef; color: #185e69; border-color: #b8dcd7;
+  transform: none; box-shadow: none;
+}
+.app-menu-boton svg { width: 22px; height: 22px; }
+.app-menu-boton[aria-expanded="true"] { background: #e1f1ee; }
+.app-navegacion[aria-busy="true"] { min-height: 44px; }
+/* Los anclajes quedan debajo de la barra fija al desplazarse. */
+#registrar-nave, #mis-naves { scroll-margin-top: 110px; }
+/* Sin navegación secundaria o redundante dentro del pie. */
+.app-pie { justify-content: center; text-align: center; }
+/* Portada: solo el hero original, sus tres ventajas y un cierre discreto. */
+.portada .landing-pie-simple { text-align: center; padding: 24px 16px 36px;
+  color: #738c8e; font-size: .82rem; border-top: 1px solid #e5eeec; }
+.portada .landing-main { padding-bottom: 30px; }
+.portada .hero-underbar { border-bottom: 0; }
+.portada .landing-nav a[aria-current="page"] { color: #0d6470; }
+@media (max-width: 1300px) {
+  .barra.barra-nueva { position: sticky; min-height: 76px; flex-wrap: wrap; gap: 10px 18px; }
+  .barra-nueva .app-marca { margin-right: auto; }
+  .barra-nueva .app-menu-boton { display: inline-flex; order: 2; }
+  .barra-nueva .app-navegacion { display: none; order: 4; flex-basis: 100%; margin: 0;
+    flex-direction: column; align-items: stretch; gap: 4px;
+    padding: 10px; border: 1px solid #dceae7; background: #fff; border-radius: 12px;
+    box-shadow: 0 12px 24px #103b4910; }
+  .barra-nueva .app-navegacion.is-abierto { display: flex; }
+  .app-navegacion a { min-height: 46px; padding: 12px 14px; white-space: normal; }
+  .barra.barra-nueva .app-sesion { order: 3; max-width: min(290px, 38vw); }
+}
+@media (max-width: 620px) {
+  .barra.barra-nueva { padding: 12px 16px; gap: 9px 13px; }
+  .app-marca-simbolo { width: 44px; height: 44px; border-radius: 12px; }
+  .app-marca-simbolo svg { width: 26px; height: 26px; }
+  .app-marca-texto strong { font-size: 1.23rem; }
+  .app-marca-texto small { font-size: .55rem; }
+  .barra.barra-nueva .app-sesion { order: 4; flex-basis: 100%; max-width: none; width: 100%;
+    justify-content: space-between; border-left: 0; border-top: 1px solid #e4edeb;
+    padding: 7px 0 0; margin: 0; }
+  .barra-nueva .app-navegacion { order: 5; }
+  .barra-nueva .app-menu-boton { margin-left: auto; }
+}
+@media print { .barra.barra-nueva, .landing-pie-simple { position: static; } }
+
+
+@media (max-width: 620px) {
+  .barra.barra-nueva .app-sesion { gap: 8px; }
+  .barra-nueva .app-sesion__nombre { max-width: min(53vw, 240px); }
+  .barra.barra-nueva .app-sesion #btn-salir { padding: 9px 12px; }
+}

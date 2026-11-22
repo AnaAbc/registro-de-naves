@@ -60,7 +60,7 @@ El sistema impone las precondiciones del trámite en lugar de dejar que fallen a
 
 ## Brand Commitments
 
-- **Identidad: decisión abierta.** Las pantallas dicen "Navesitas · Registro de naves comerciales · DGMM", pero la cliente es la AMP. No está decidido si "Navesitas" es el nombre del producto, un nombre provisional que debe reemplazarse por la identidad de la AMP/DGMM, o ambas cosas. El trabajo futuro no debe resolver esto por su cuenta.
+- **Identidad del prototipo académico:** se utiliza **Navecitas** como nombre de la plataforma y marca visible. No representa una identidad gráfica oficial de la AMP o la DGMM; cualquier adopción institucional requeriría validación aparte.
 - No hay logotipo ni recurso institucional en el repositorio.
 - **Voz:** español de Panamá, trato formal de "usted" ("Su sesión terminó. Vuelva a entrar…", "La nave indicada no le pertenece.").
 

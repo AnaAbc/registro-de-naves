@@ -4,7 +4,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
-/** Consulta pública limitada: no permite descargar el expediente ni sus adjuntos. */
+/** Consulta limitada al funcionario DGMM; no expone el expediente ni sus adjuntos. */
 @RestController
 public class VerificacionPatenteController {
     private final PatenteService servicio;

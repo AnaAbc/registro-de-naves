@@ -197,17 +197,23 @@ class PatenteIntegrationTest {
         jdbc.update("UPDATE pp_emisiones SET datos_emitidos=? WHERE id=?",e.get("datos_emitidos"),e.get("id"));
         assertThat(servicio.descargarPdf(nave.getId(),AGENTE).nombre()).isEqualTo(e.get("numero")+".pdf");
     }
-    @Test void verificacionPublicaMinimaSinAccesoAlExpediente() throws Exception {
+    @Test void verificacionDGMMMinimaSinAccesoAlExpediente() throws Exception {
         enviado();revisarTodo();servicio.aprobar(nave.getId(),new Contexto(envio()),DGMM);
         UUID token=jdbc.queryForObject("SELECT verificacion_id FROM pp_emisiones WHERE nave_id=?",UUID.class,nave.getId());
-        mvc.perform(get("/api/verificacion/patentes/"+token)).andExpect(status().isOk())
+        mvc.perform(get("/api/verificacion/patentes/"+token)).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/verificacion/patentes/"+token).with(user(AGENTE).roles("AGENTE_NAVIERO")))
+            .andExpect(status().isForbidden());
+        mvc.perform(get("/api/verificacion/patentes/"+token).with(user(DGMM).roles("FUNCIONARIO_DGMM")))
+            .andExpect(status().isOk())
             .andExpect(header().string("Cache-Control","no-store"))
             .andExpect(jsonPath("$.numero").exists()).andExpect(jsonPath("$.estado").value("APROBADA"))
             .andExpect(jsonPath("$.vigencia").value("Sin vencimiento definido"))
             .andExpect(jsonPath("$.solicitante").doesNotExist()).andExpect(jsonPath("$.propietarios").doesNotExist())
             .andExpect(jsonPath("$.contenido").doesNotExist()).andExpect(jsonPath("$.documentos").doesNotExist());
-        mvc.perform(get("/api/verificacion/patentes/"+UUID.randomUUID())).andExpect(status().isNotFound());
-        mvc.perform(get("/api/verificacion/patentes/1")).andExpect(status().isBadRequest());
+        mvc.perform(get("/api/verificacion/patentes/"+UUID.randomUUID()).with(user(DGMM).roles("FUNCIONARIO_DGMM")))
+            .andExpect(status().isNotFound());
+        mvc.perform(get("/api/verificacion/patentes/1").with(user(DGMM).roles("FUNCIONARIO_DGMM")))
+            .andExpect(status().isBadRequest());
         mvc.perform(get(ruta()+"/archivo")).andExpect(status().isUnauthorized());
     }
     @Test void evidenciaAjena404HashAlterado409() throws Exception {

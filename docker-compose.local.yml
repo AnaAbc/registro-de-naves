@@ -1,0 +1,73 @@
+# Extensión local para el docker-compose.yml incluido en Navecitas.
+# Uso: docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+services:
+  db:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    container_name: navesitas-app-local
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/registro_naves
+      DB_USER: ${DB_USER:-registro}
+      DB_PASSWORD: ${DB_PASSWORD:?Configura DB_PASSWORD en .env}
+      SPRING_MAIL_HOST: correo
+      NAVESITAS_URL_BASE: http://localhost:8080
+      NAVESITAS_ALMACEN_RUTA: /var/data/almacen
+    volumes:
+      - navesitas-archivos:/var/data/almacen
+    depends_on:
+      db:
+        condition: service_healthy
+      correo:
+        condition: service_started
+    restart: unless-stopped
+
+  # Pruebas opcionales con BD separada: nunca deben ejecutarse sobre la BD de demostración.
+  db-pruebas:
+    image: postgres:17
+    profiles: [qa]
+    environment:
+      POSTGRES_DB: registro_naves
+      POSTGRES_USER: ${DB_USER:-registro}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Configura DB_PASSWORD en .env}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  pruebas-java:
+    image: maven:3.9-eclipse-temurin-21
+    profiles: [qa]
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+      - navesitas-maven-cache:/root/.m2
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-pruebas:5432/registro_naves
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-registro}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:?Configura DB_PASSWORD en .env}
+    depends_on:
+      db-pruebas:
+        condition: service_healthy
+    command: ["mvn", "-B", "verify"]
+
+  pruebas-js:
+    image: node:22-alpine
+    profiles: [qa]
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["node --test src/test/js/*.test.cjs"]
+
+volumes:
+  navesitas-archivos:
+  navesitas-maven-cache:

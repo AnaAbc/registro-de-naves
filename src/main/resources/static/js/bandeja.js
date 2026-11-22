@@ -1,4 +1,4 @@
-/* Navesitas — bandeja de tramites de la DGMM (HU-11).
+/* Navecitas — bandeja de tramites de la DGMM (HU-11).
 
    Lista los tramites de todas las naves. Por defecto, los que esperan una
    decision de la DGMM (Solicitud presentada y En revision); los chips
@@ -125,7 +125,7 @@ function sinPermiso(datos) {
   $('seccion-bandeja').classList.add('oculto');
   const aviso = $('aviso-bandeja');
   mostrar(aviso, 'ocupado', (datos && datos.mensaje) || 'La bandeja de trámites es de la DGMM.');
-  aviso.insertAdjacentHTML('beforeend', ' <a href="/naves.html">Ir a Mis naves</a>');
+  aviso.insertAdjacentHTML('beforeend', ' <a href="/mis-naves.html">Ir a Mis naves</a>');
 }
 
 (async function iniciar() {
